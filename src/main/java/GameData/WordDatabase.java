@@ -55,6 +55,8 @@ public class WordDatabase implements Serializable{
 	}
 	
 	public void searchForWord( Word word ) throws FileNotFoundException {
+		//System.out.println( word.getWord() );
+
 		for( int x = 0; x < this.words.size(); x++ ) { 
 			if( this.words.get(x).getWord().charAt(0) < word.getWord().charAt(0) ) { 
 				break;
@@ -79,6 +81,9 @@ public class WordDatabase implements Serializable{
 					this.words.add(word);
 				}
 			}
+		}
+		if( word.isValid() ) { 
+			System.out.println( word.getWord() );
 		}
 	}
 	

@@ -25,7 +25,7 @@ import Misc.Debugging;
 
 public class AI_Player {
 
-	private Integer connectedToPort = 9846;
+	private Integer connectedToPort = 9882;
 	private String username;
 	
 	private ArrayList< ArrayList<String> > allboards; 
@@ -55,17 +55,18 @@ public class AI_Player {
 		this.currentBoard = board;
 
 		//this.play();
+		System.out.println( "Ai is about to start training" );
 		this.train();
 	}
 	public ArrayList<String> getCurrentBoard(){ 
 		return this.allboards.get(this.allboards.size()-1);
 	}
 	
-	public void networkCommunication( String data ) throws IOException { 
-		Debugging.printDebug( "From the netword communication method" );
-		PrintWriter socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
-		socketOutput.println( data );
-	}
+	//public void networkCommunication( String data ) throws IOException { 
+	//	Debugging.printDebug( "From the netword communication method" );
+	//	PrintWriter socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
+	//	socketOutput.println( data );
+	//}
 	
 	
 	public void play() { 
@@ -73,7 +74,7 @@ public class AI_Player {
 	}
 
 	public void train() { 
-		System.out.println( "AI started playing" );
+		System.out.println( "AI started training" );
 		
 		// 788204889
 		
@@ -101,9 +102,9 @@ public class AI_Player {
 							//System.out.println("Current word:" + String.valueOf( currentWordBeingChecked ) );
 							WordDatabase.getInstance().searchForWord(
 									new Word(wordAsString.substring(currentVal, currentVal+multiple)));
-							networkCommunication(
-									"Current word:" + String.valueOf( currentWordBeingChecked ) + " / " + allCombinations.size()
-									);
+							//networkCommunication(
+							//		"Current word:" + String.valueOf( currentWordBeingChecked ) + " / " + allCombinations.size()
+							//		);
 							//System.out.println( wordAsString.substring( currentVal, currentVal+multiple) );
 							
 							currentVal++;

@@ -29,14 +29,14 @@ public class Main {
 		//boggle.generateBoard();
 		//boggle.printBoard();
 		
-		Word word = new Word("software");
 		
-		WordDatabase.getInstance().addNewWord(word);
-		WordDatabase.getInstance().searchForWord(word);
+		WordDatabase.getInstance().deserialize();
+		WordDatabase.getInstance().printAllFoundWords();
+		//Word word = new Word("table");
 		
-		System.out.print( word.isValid()+"\n");
-		
-		
+		//WordDatabase.getInstance().searchForWord(word);
+		//WordDatabase.getInstance().serialize();
+				
 		
 		//GameRuntime gameRuntime = new GameRuntime();
 		//gameRuntime.start();

@@ -35,14 +35,14 @@ public class GameRuntime extends Thread{
 	public void run(){ 
 		try {
 			//this.addPlayers();
-			while(true) {
+			//while(true) {
 				boggle.playTurn();
 				boggle.printBoard();
 				Thread.sleep(3000);
 				WordDatabase.getInstance().serialize();
-				GameScore.getInstance().scoreGame(boggle);
-				GameScore.getInstance().printLatestGameStandings();
-			}
+				//GameScore.getInstance().scoreGame(boggle);
+				//GameScore.getInstance().printLatestGameStandings();
+			//}
 			
 		} catch (/*InterruptedException*/ Exception e) {
 			// TODO Auto-generated catch block

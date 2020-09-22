@@ -33,6 +33,7 @@ public class Boggle {
 	public void generateBoard() { 
 		this.board.clear();
 		for( int x =0; x < this.dice.size(); x++ ) { 
+		//for( int x = 0; x<4; x++ ) {
 			this.board.add( this.dice.get(x).rollDice() );
 		}
 		GameData.AllBoards.getInstance().addNewBoard(this.board);
