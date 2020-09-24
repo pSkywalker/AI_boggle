@@ -52,8 +52,8 @@ public class Main {
 		//WordDatabase.getInstance().serialize();
 		
 		//ExternalWordSource.getInstance().findWord(new Word( "Software" ));
-		//GameRuntime gameRuntime = new GameRuntime();
-		//gameRuntime.start();
+		GameRuntime gameRuntime = new GameRuntime();
+		gameRuntime.start();
 		
 		
 		ArrayList<String> board = new ArrayList<String>();
@@ -74,9 +74,9 @@ public class Main {
 		board.add("s");
 		board.add("qu");
 		
-		wordBuilder( board );
+		//wordBuilder( board );
 		
-		WordDatabase.getInstance().printAllFoundWords();
+		//WordDatabase.getInstance().printAllFoundWords();
 		
 	}
 	

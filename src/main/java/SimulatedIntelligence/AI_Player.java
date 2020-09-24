@@ -69,11 +69,11 @@ public class AI_Player{
 		return this.allboards.get(this.allboards.size()-1);
 	}
 	
-	//public void networkCommunication( String data ) throws IOException { 
-	//	Debugging.printDebug( "From the netword communication method" );
-	//	PrintWriter socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
-	//	socketOutput.println( data );
-	//}
+	public void networkCommunication( String data ) throws IOException { 
+		Debugging.printDebug( "From the netword communication method" );
+		PrintWriter socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
+		socketOutput.println( data );
+	}
 	
 	
 	public void play() { 
@@ -109,9 +109,9 @@ public class AI_Player{
 							//System.out.println("Current word:" + String.valueOf( currentWordBeingChecked ) );
 							WordDatabase.getInstance().searchForWord(
 									new Word(wordAsString.substring(currentVal, currentVal+multiple)));
-							//networkCommunication(
-							//		"Current word:" + String.valueOf( currentWordBeingChecked ) + " / " + allCombinations.size()
-							//		);
+							networkCommunication(
+									"Current word:" + String.valueOf( currentWordBeingChecked ) + " / " + allCombinations.size()
+									);
 							//System.out.println( wordAsString.substring( currentVal, currentVal+multiple) );
 							
 							currentVal++;
