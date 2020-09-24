@@ -61,13 +61,16 @@ public class WordDatabase implements Serializable{
 			if( this.words.get(x).getWord().charAt(0) < word.getWord().charAt(0) ) { 
 				break;
 			}
-			if( this.words.get(x).getWord().equals(word) ){ 
+			if( this.words.get(x).getWord().toLowerCase().equals(word.getWord().toLowerCase()) ){ 
 				word.setValid(true);
+				System.out.println( word.getWord() );
 			}
 		}
 		if( !word.isValid() ) { 
+			//System.out.println( word.getWord() );
 			ExternalWordSource.getInstance().findWord(word);
-			if( word.isValid() ) { 
+			//System.out.println( word.getWord()+ " " + word.isValid() );
+			if( word.isValid() ) {
 				boolean wordAlreadyExists = false;
 				for( int x = 0; x < this.words.size(); x++ ) { 
 					if( this.words.get(x).getWord().toLowerCase().charAt(0) > word.getWord().toLowerCase().charAt(0) ) { 
@@ -89,6 +92,14 @@ public class WordDatabase implements Serializable{
 	
 	public void addNewWord( Word word ) { 
 		this.words.add(word);
+	}
+	
+	public void emptyDataBase() { 
+		this.words.clear();
+	}
+	
+	public Integer getSizeOfWordDatabase() { 
+		return this.words.size();
 	}
 	
 	public void printAllFoundWords() { 

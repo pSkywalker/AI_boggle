@@ -3,6 +3,7 @@ package SimulatedIntelligence;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,9 +24,9 @@ import GameData.WordDatabase;
 import Misc.Debugging;
 
 
-public class AI_Player {
+public class AI_Player{
 
-	private Integer connectedToPort = 9882;
+	private Integer connectedToPort = 9889;
 	private String username;
 	
 	private ArrayList< ArrayList<String> > allboards; 
@@ -45,8 +46,14 @@ public class AI_Player {
 		this.currentBoard = new ArrayList<String>();
 		
 		this.socketConnection = new ServerSocket( this.connectedToPort );
-		this.socketListener = socketConnection.accept();
+		//this.socketListener = socketConnection.accept();
+		
+		
+		//InputStream socketInputStream = this.socketListener.getInputStream();
+		//System.out.println( "From inputstream : " + socketInputStream.read() );
 	}
+
+	
 	
 	public void getBoardAccess( ArrayList<String> board ) { 
 		if( this.currentBoard.isEmpty() ) { 
