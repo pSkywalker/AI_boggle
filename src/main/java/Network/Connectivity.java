@@ -31,6 +31,7 @@ public class Connectivity {
 	}
 	
 	public void awaitConnection() throws IOException { 
+		System.out.println( "AI is now listening on port : " + String.valueOf( this.port ) );
 		this.socketListener = socketConnection.accept();
 		this.socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
 		this.socketOutput.println( "Welcome to boggle ai!"
