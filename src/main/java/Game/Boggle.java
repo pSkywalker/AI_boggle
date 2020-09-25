@@ -19,14 +19,14 @@ public class Boggle {
 		this.dice = new ArrayList<Dice>();
 		this.board = new ArrayList<String>();
 		this.players = new ArrayList<Player>();
-		this.ai_player = new AI_Player();
+		this.ai_player = new AI_Player( new ArrayList<String>() );
 		this.createDice();
 	}
 	
 	public void playTurn() throws FileNotFoundException { 
 		this.generateBoard();
 		this.ai_player.getBoardAccess( this.board );
-		GameScore.getInstance().scoreGame(this);
+		//GameScore.getInstance().scoreGame(this);
 	}
 	
 	

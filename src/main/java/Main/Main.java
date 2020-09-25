@@ -18,6 +18,8 @@ import Game.GameRuntime;
 import Game.Word;
 import GameData.WordDatabase;
 import Misc.Debugging;
+import Network.Connectivity;
+import SimulatedIntelligence.AI_Player;
 
 public class Main {
 
@@ -46,14 +48,14 @@ public class Main {
 		//}
 		//System.out.println( WordDatabase.getInstance().getSizeOfWordDatabase() );
 		
-		//WordDatabase.getInstance().searchForWord(word);
+		//WordDatabase.getInstance().searchForWord(words.get(0));
 		//WordDatabase.getInstance().printAllFoundWords();
 		
 		//WordDatabase.getInstance().serialize();
 		
 		//ExternalWordSource.getInstance().findWord(new Word( "Software" ));
-		GameRuntime gameRuntime = new GameRuntime();
-		gameRuntime.start();
+		//GameRuntime gameRuntime = new GameRuntime();
+		//gameRuntime.start();
 		
 		
 		ArrayList<String> board = new ArrayList<String>();
@@ -77,6 +79,32 @@ public class Main {
 		//wordBuilder( board );
 		
 		//WordDatabase.getInstance().printAllFoundWords();
+		
+		Boggle boggle = new Boggle();
+		boggle.generateBoard();
+		AI_Player ai = new AI_Player(boggle.getGameBoard());
+		WordDatabase.getInstance().deserialize();
+		Connectivity.getInstance().awaitConnection();	
+		
+		while( true ) {
+			String userInput = Connectivity.getInstance().getUserInput();
+			switch( userInput.toLowerCase().replace(" ", "") ) { 
+			case "--play":
+				ai.play();
+				break;
+			case "--train":
+				ai.train();
+				WordDatabase.getInstance().serialize();
+				break;
+			case "--list":
+				WordDatabase.getInstance().printAllFoundsWords_net();
+				break;
+			default: 
+				Connectivity.getInstance().printToClient( "Error, command not found" );
+				break;
+
+			}
+		}
 		
 	}
 	

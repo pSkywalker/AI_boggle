@@ -47,12 +47,9 @@ public class ExternalWordSource {
 			//		word.getWord().toLowerCase() + " : " + externalWord.toLowerCase()
 			//		);
 			if( word.getWord().toLowerCase().equals(externalWord.toLowerCase())  ) { 
-				System.out.println( word.getWord() );
+				//System.out.println( word.getWord() );
 				word.setValid(true);
 			}
-		}
-		if( word.isValid() ) { 
-			Debugging.printDebug( word.getWord() );
 		}
 	}
 	

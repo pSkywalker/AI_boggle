@@ -13,6 +13,7 @@ import java.util.Comparator;
 
 import Game.ExternalWordSource;
 import Game.Word;
+import Network.Connectivity;
 
 public class WordDatabase implements Serializable{
 
@@ -63,7 +64,7 @@ public class WordDatabase implements Serializable{
 			}
 			if( this.words.get(x).getWord().toLowerCase().equals(word.getWord().toLowerCase()) ){ 
 				word.setValid(true);
-				System.out.println( word.getWord() );
+				//System.out.println( word.getWord() );
 			}
 		}
 		if( !word.isValid() ) { 
@@ -73,8 +74,8 @@ public class WordDatabase implements Serializable{
 			if( word.isValid() ) {
 				boolean wordAlreadyExists = false;
 				for( int x = 0; x < this.words.size(); x++ ) { 
-					if( this.words.get(x).getWord().toLowerCase().charAt(0) > word.getWord().toLowerCase().charAt(0) ) { 
-						break;
+					if( this.words.get(x).getWord().toLowerCase().charAt(0) < word.getWord().toLowerCase().charAt(0) ) { 
+						//break;
 					}
 					if( this.words.get(x).getWord().toLowerCase().equals( word.getWord().toLowerCase() ) ) { 
 						wordAlreadyExists = true;
@@ -82,12 +83,11 @@ public class WordDatabase implements Serializable{
 				}
 				if( !wordAlreadyExists ) { 
 					this.words.add(word);
+					Connectivity.getInstance().printToClient( word.getWord()  );
 				}
 			}
 		}
-		if( word.isValid() ) { 
-			System.out.println( word.getWord() );
-		}
+		
 	}
 	
 	public void addNewWord( Word word ) { 
@@ -107,5 +107,15 @@ public class WordDatabase implements Serializable{
 			System.out.println( this.words.get(x) );
 		}
 	}
+	public void printAllFoundsWords_net() { 
+		if( this.words.size() < 1 ) {
+			Connectivity.getInstance().printNoWordsError();
+			return;
+		}
+		for( int x = 0; x < this.words.size(); x++ ) {
+			Connectivity.getInstance().printToClient(this.words.get(x).getWord());
+		}
+	}
 		
 }
+

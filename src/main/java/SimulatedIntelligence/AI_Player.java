@@ -22,6 +22,7 @@ import com.google.common.collect.Collections2;
 import Game.Word;
 import GameData.WordDatabase;
 import Misc.Debugging;
+import Network.Connectivity;
 
 
 public class AI_Player{
@@ -36,18 +37,24 @@ public class AI_Player{
 	
 	private Integer currentWordBeingChecked = 0;
 	
+	private PrintWriter socketOutput;
 	private ServerSocket socketConnection;
 	private Socket socketListener;
 	
-	public AI_Player() throws IOException {
-		System.out.println("AI is running on port: " + connectedToPort);
+	public AI_Player( ArrayList<String> board ) throws IOException {
+		//System.out.println("AI is running on port: " + connectedToPort);
 		username = "AI";
 		this.allboards = new ArrayList<ArrayList<String>>();
-		this.currentBoard = new ArrayList<String>();
+		this.currentBoard = board;
 		
-		this.socketConnection = new ServerSocket( this.connectedToPort );
+		//this.socketConnection = new ServerSocket( this.connectedToPort );
 		//this.socketListener = socketConnection.accept();
-		
+		//this.socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
+
+		//this.networkCommunication( "Select the option\n"+  
+		//"1. Train\n" + 
+		//"2. Play"
+		//		);
 		
 		//InputStream socketInputStream = this.socketListener.getInputStream();
 		//System.out.println( "From inputstream : " + socketInputStream.read() );
@@ -71,12 +78,15 @@ public class AI_Player{
 	
 	public void networkCommunication( String data ) throws IOException { 
 		Debugging.printDebug( "From the netword communication method" );
-		PrintWriter socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
-		socketOutput.println( data );
+		this.socketOutput.println( data );
 	}
 	
 	
 	public void play() { 
+		if( WordDatabase.getInstance().getSizeOfWordDatabase() < 1 ) { 
+			Connectivity.getInstance().printNoWordsError();
+			return;
+		}
 		
 	}
 
@@ -98,6 +108,7 @@ public class AI_Player{
 				// TODO Auto-generated method stub
 				
 				try {
+					System.out.println( t.toString() );
 					String wordAsString = t.toString().replace("[", "").replace("]", "").replace(",","").replace(" ", "");
 					Integer multiple = 3;
 					while( true ) {
@@ -109,9 +120,9 @@ public class AI_Player{
 							//System.out.println("Current word:" + String.valueOf( currentWordBeingChecked ) );
 							WordDatabase.getInstance().searchForWord(
 									new Word(wordAsString.substring(currentVal, currentVal+multiple)));
-							networkCommunication(
-									"Current word:" + String.valueOf( currentWordBeingChecked ) + " / " + allCombinations.size()
-									);
+							//networkCommunication(
+							//		"Current word:" + String.valueOf( currentWordBeingChecked ) + " / " + allCombinations.size()
+							//		);
 							//System.out.println( wordAsString.substring( currentVal, currentVal+multiple) );
 							
 							currentVal++;
@@ -144,3 +155,5 @@ public class AI_Player{
 	}
 	
 }
+
+
