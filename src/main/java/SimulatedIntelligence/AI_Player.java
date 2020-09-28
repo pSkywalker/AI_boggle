@@ -40,6 +40,7 @@ public class AI_Player{
 		username = "AI";
 		this.allboards = new ArrayList<ArrayList<String>>();
 		this.currentBoard = board;	
+		this.wordsForCurrentGame = new ArrayList<Word>();
 	}
 
 	
