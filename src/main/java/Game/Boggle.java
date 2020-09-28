@@ -3,9 +3,11 @@ package Game;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import GameData.GameScore;
 import Misc.Debugging;
+import Network.Connectivity;
 import SimulatedIntelligence.AI_Player;
 
 public class Boggle {
@@ -39,8 +41,19 @@ public class Boggle {
 		GameData.AllBoards.getInstance().addNewBoard(this.board);
 	}
 	
+	public void setGameBoard( String board ) {
+		this.board = new ArrayList<String>( Arrays.asList( board.split(",")) );
+	}
 	public ArrayList<String> getGameBoard() { 
 		return this.board;
+	}
+	public String getGameBoardAsString() { 
+		StringBuilder gameBoard = new StringBuilder();
+		for( int x = 0 ; x < this.board.size(); x++) { 
+			gameBoard.append( this.board.get(x) + " " );
+			
+		}
+		return gameBoard.toString();
 	}
 	public AI_Player getAI_Player() { 
 		return this.ai_player;

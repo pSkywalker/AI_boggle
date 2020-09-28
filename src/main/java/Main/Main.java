@@ -26,87 +26,121 @@ public class Main {
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		
-		//Boggle boggle = new Boggle();
-		//boggle.playTurn();
-		//boggle.generateBoard();
-		//boggle.printBoard();
-		
-		
-		//WordDatabase.getInstance().deserialize();
-		//WordDatabase.getInstance().emptyDataBase();
-		//WordDatabase.getInstance().printAllFoundWords();
-		//Word word = new Word("four");
-		
-		//ArrayList<Word> words = new ArrayList<>();
-		//words.add(new Word("four"));
-		//words.add(new Word("four"));
-		//words.add(new Word("four"));
-		//words.add(new Word("four"));
-		
-		//for( int x = 0; x < words.size(); x++ ) { 
-		//	WordDatabase.getInstance().searchForWord( words.get(x) );
-		//}
-		//System.out.println( WordDatabase.getInstance().getSizeOfWordDatabase() );
-		
-		//WordDatabase.getInstance().searchForWord(words.get(0));
-		//WordDatabase.getInstance().printAllFoundWords();
-		
-		//WordDatabase.getInstance().serialize();
-		
-		//ExternalWordSource.getInstance().findWord(new Word( "Software" ));
-		//GameRuntime gameRuntime = new GameRuntime();
-		//gameRuntime.start();
-		
-		
-		ArrayList<String> board = new ArrayList<String>();
-		board.add("f");
-		board.add("o");
-		board.add("u");
-		board.add("r");
-		board.add("a");
-		board.add("s");
-		board.add("o");
-		board.add("f");
-		board.add("t");
-		board.add("w");
-		board.add("a");
-		board.add("r");
-		board.add("e");
-		board.add("r");
-		board.add("s");
-		board.add("qu");
-		
-		//wordBuilder( board );
-		
-		//WordDatabase.getInstance().printAllFoundWords();
-		
+
 		Boggle boggle = new Boggle();
 		boggle.generateBoard();
 		AI_Player ai = new AI_Player(boggle.getGameBoard());
-		WordDatabase.getInstance().deserialize();
-		Connectivity.getInstance().awaitConnection();	
+		WordDatabase.getInstance().deserialize();	
+		Connectivity.getInstance().awaitConnection();
 		
 		while( true ) {
-			String userInput = Connectivity.getInstance().getUserInput();
-			switch( userInput.toLowerCase().replace(" ", "") ) { 
-			case "--play":
-				ai.play();
-				break;
-			case "--train":
-				ai.train();
-				WordDatabase.getInstance().serialize();
-				break;
-			case "--list":
-				WordDatabase.getInstance().printAllFoundsWords_net();
-				break;
-			default: 
-				Connectivity.getInstance().printToClient( "Error, command not found" );
-				break;
 
+			Connectivity.getInstance().printMenu();
+			
+			String userInput = Connectivity.getInstance().getUserInput();
+
+			if( userInput.equals("--play") ) { 
+				ai.play();
+			}
+			else if( userInput.equals( "--train" ) ) { 
+				ai.train();
+			}
+			else if( userInput.equals( "--list" ) ) { 
+				Connectivity.getInstance().printAllKnownWords();
+			}
+			else if(userInput.equals("--gen-board") ) { 
+				boggle.generateBoard();
+				Connectivity.getInstance().printToClient( "New game board: " + boggle.getGameBoardAsString() );
+			}
+			else if( userInput.equals( "--show-board" ) ) { 
+				Connectivity.getInstance().printToClient( boggle.getGameBoardAsString() );
+			}
+			else if( userInput.substring(0, 11).equals("--set-board") ) { 
+				Connectivity.getInstance().printToClient( " The user tried to set the board with following board detals : " + userInput.substring(11, userInput.length()) );
+				//Connectivity.getInstance().printToClient( " The user tried to set the board with following board detals : " + userInput.charAt(11) );
+
+				boggle.setGameBoard(userInput.substring(11, userInput.length()));
 			}
 		}
 		
 	}
+	/*
+	switch( userInput.toLowerCase().replace(" ", "") ) { 
+	case "--play":
+		ai.play();
+		break;
+	case "--train":
+		ai.train();
+		WordDatabase.getInstance().serialize();
+		break;
+	case "--list":
+		WordDatabase.getInstance().printAllFoundsWords_net();
+		break;
+	case "--set-board":
+		Connectivity.getInstance().printToClient("Add a boggle board. Needs to be in array format");
+		boggle.setGameBoard( Connectivity.getInstance().getUserInput() );
+		break;
+	case "current-board":
+
+		break;
+	default: 
+		Connectivity.getInstance().printNoCommandError();
+		break;
+	}
+	*/
+	//Boggle boggle = new Boggle();
+	//boggle.playTurn();
+	//boggle.generateBoard();
+	//boggle.printBoard();
+	
+	
+	//WordDatabase.getInstance().deserialize();
+	//WordDatabase.getInstance().emptyDataBase();
+	//WordDatabase.getInstance().printAllFoundWords();
+	//Word word = new Word("four");
+	
+	//ArrayList<Word> words = new ArrayList<>();
+	//words.add(new Word("four"));
+	//words.add(new Word("four"));
+	//words.add(new Word("four"));
+	//words.add(new Word("four"));
+	
+	//for( int x = 0; x < words.size(); x++ ) { 
+	//	WordDatabase.getInstance().searchForWord( words.get(x) );
+	//}
+	//System.out.println( WordDatabase.getInstance().getSizeOfWordDatabase() );
+	
+	//WordDatabase.getInstance().searchForWord(words.get(0));
+	//WordDatabase.getInstance().printAllFoundWords();
+	
+	//WordDatabase.getInstance().serialize();
+	
+	//ExternalWordSource.getInstance().findWord(new Word( "Software" ));
+	//GameRuntime gameRuntime = new GameRuntime();
+	//gameRuntime.start();
+	
+	/*
+	ArrayList<String> board = new ArrayList<String>();
+	board.add("f");
+	board.add("o");
+	board.add("u");
+	board.add("r");
+	board.add("a");
+	board.add("s");
+	board.add("o");
+	board.add("f");
+	board.add("t");
+	board.add("w");
+	board.add("a");
+	board.add("r");
+	board.add("e");
+	board.add("r");
+	board.add("s");
+	board.add("qu");
+	*/
+	//wordBuilder( board );
+	
+	//WordDatabase.getInstance().printAllFoundWords();
 	
 	
 	public static void wordBuilder(ArrayList<String> board) throws FileNotFoundException { 

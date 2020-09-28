@@ -51,8 +51,16 @@ public class WordDatabase implements Serializable{
 		}
 	}
 	
-	public void searchFromLearnedWords() { 
-		
+	public void searchLearnedWords( Word word ) { 
+		for( int x = 0; x < this.words.size(); x++ ) { 
+			if( this.words.get(x).getWord().charAt(0) < word.getWord().charAt(0) ) { 
+				break;
+			}
+			if( this.words.get(x).getWord().toLowerCase().equals(word.getWord().toLowerCase()) ){ 
+				word.setValid(true);
+				//System.out.println( word.getWord() );
+			}
+		}
 	}
 	
 	public void searchForWord( Word word ) throws FileNotFoundException {
@@ -93,7 +101,9 @@ public class WordDatabase implements Serializable{
 	public void addNewWord( Word word ) { 
 		this.words.add(word);
 	}
-	
+	public ArrayList<Word> getKnownWords(){ 
+		return this.words;
+	}
 	public void emptyDataBase() { 
 		this.words.clear();
 	}
@@ -107,15 +117,7 @@ public class WordDatabase implements Serializable{
 			System.out.println( this.words.get(x) );
 		}
 	}
-	public void printAllFoundsWords_net() { 
-		if( this.words.size() < 1 ) {
-			Connectivity.getInstance().printNoWordsError();
-			return;
-		}
-		for( int x = 0; x < this.words.size(); x++ ) {
-			Connectivity.getInstance().printToClient(this.words.get(x).getWord());
-		}
-	}
+	
 		
 }
 

@@ -27,37 +27,19 @@ import Network.Connectivity;
 
 public class AI_Player{
 
-	private Integer connectedToPort = 9889;
 	private String username;
 	
 	private ArrayList< ArrayList<String> > allboards; 
 	private ArrayList<String> currentBoard;
 	
-	private ArrayList<Word> wordsFound;
-	
-	private Integer currentWordBeingChecked = 0;
-	
-	private PrintWriter socketOutput;
-	private ServerSocket socketConnection;
-	private Socket socketListener;
+	private ArrayList<Word> wordsForCurrentGame;
+
 	
 	public AI_Player( ArrayList<String> board ) throws IOException {
 		//System.out.println("AI is running on port: " + connectedToPort);
 		username = "AI";
 		this.allboards = new ArrayList<ArrayList<String>>();
-		this.currentBoard = board;
-		
-		//this.socketConnection = new ServerSocket( this.connectedToPort );
-		//this.socketListener = socketConnection.accept();
-		//this.socketOutput = new PrintWriter( socketListener.getOutputStream(), true );
-
-		//this.networkCommunication( "Select the option\n"+  
-		//"1. Train\n" + 
-		//"2. Play"
-		//		);
-		
-		//InputStream socketInputStream = this.socketListener.getInputStream();
-		//System.out.println( "From inputstream : " + socketInputStream.read() );
+		this.currentBoard = board;	
 	}
 
 	
@@ -76,18 +58,66 @@ public class AI_Player{
 		return this.allboards.get(this.allboards.size()-1);
 	}
 	
-	public void networkCommunication( String data ) throws IOException { 
-		Debugging.printDebug( "From the netword communication method" );
-		this.socketOutput.println( data );
-	}
-	
 	
 	public void play() { 
 		if( WordDatabase.getInstance().getSizeOfWordDatabase() < 1 ) { 
 			Connectivity.getInstance().printNoWordsError();
 			return;
 		}
+		Collection<List<String>> allCombinations = Collections2.permutations(this.currentBoard);
+		Stream<List<String>> comboStream = allCombinations.stream();
 		
+		comboStream.forEach( new Consumer<Object>() {
+
+			@Override
+			public void accept(Object t) {
+				// TODO Auto-generated method stub
+			
+				try {
+					System.out.println( t.toString() );
+					String wordAsString = t.toString().replace("[", "").replace("]", "").replace(",","").replace(" ", "");
+					Integer multiple = 3;
+					while( true ) {
+						Integer currentVal = 0 ;
+						//System.out.println( wordAsString );
+						//System.out.println( multiple );
+						while(true) { 
+							
+							Word word = new Word(wordAsString.substring(currentVal, currentVal+multiple));
+							//System.out.println("Current word:" + String.valueOf( currentWordBeingChecked ) );
+							WordDatabase.getInstance().searchLearnedWords(word);
+							
+							if( word.isValid() ) { 
+								boolean wordFoundAlready = false;
+								for( int x = 0; x < wordsForCurrentGame.size();x++ ) { 
+									if( word.getWord().toLowerCase().charAt(0) > wordsForCurrentGame.get(x).getWord().toLowerCase().charAt(0) ) { 
+										break;
+									}
+									if( word.getWord().toLowerCase().equals(wordsForCurrentGame.get(x).getWord().toLowerCase()) ) { 
+										wordFoundAlready = true;
+									}
+								}
+								if( !wordFoundAlready ) {
+									wordsForCurrentGame.add(word);
+								}
+							}
+							currentVal++;
+							if( currentVal > 15 || currentVal + multiple > 15 ) { 
+								break;
+							}
+						}
+						multiple++;
+						if( multiple > 8 ) {
+							break;
+						}
+					}
+				}catch( Exception ex ) { 
+					
+				}
+				
+			} 
+			
+		});
 	}
 
 	public void train() { 
@@ -116,7 +146,6 @@ public class AI_Player{
 						//System.out.println( wordAsString );
 						//System.out.println( multiple );
 						while(true) { 
-							currentWordBeingChecked++;
 							//System.out.println("Current word:" + String.valueOf( currentWordBeingChecked ) );
 							WordDatabase.getInstance().searchForWord(
 									new Word(wordAsString.substring(currentVal, currentVal+multiple)));
