@@ -34,7 +34,6 @@ public class AI_Player{
 	
 	private ArrayList<Word> wordsForCurrentGame;
 
-	
 	public AI_Player( ArrayList<String> board ) throws IOException {
 		//System.out.println("AI is running on port: " + connectedToPort);
 		username = "AI";
